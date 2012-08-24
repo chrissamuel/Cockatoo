@@ -6,7 +6,7 @@ all:		Cockatoo.class
 
 Cockatoo:	Cockatoo.class
 
-Cockatoo.class: Cockatoo.java  Display.java  KeyboardInput.java  ParrotCommunication.java  Server.java
+Cockatoo.class: Cockatoo.java  Display.java DroneInfo.java  KeyboardInput.java  ParrotCommunication.java  Server.java
 	javac Cockatoo.java
 
 run: all

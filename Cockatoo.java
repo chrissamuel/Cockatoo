@@ -36,12 +36,16 @@ public class Cockatoo {
 
   private Server server = null;
 
+  private DroneInfo droneinfo = null;
+
   public Cockatoo(
     InetAddress parrotAddress) {
 
     parrotCommunication = new ParrotCommunication(parrotAddress);
 
     display = new Display(new KeyboardInput(parrotCommunication));
+
+    droneinfo = new DroneInfo(parrotCommunication);
 
     server = new Server(parrotCommunication);
   }
