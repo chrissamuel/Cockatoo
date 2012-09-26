@@ -73,8 +73,8 @@ public class KeyboardInput implements KeyListener {
 //      System.out.println("rate: " + rate);
         break;
 
-      case KeyEvent.VK_C:
-        parrotCommunication.transmitCommand("CTRL=4", null);
+      case KeyEvent.VK_C:					// get drone configdata
+        parrotCommunication.transmitCommand("CTRL", "4,0");
         break;
 
       case KeyEvent.VK_E:
