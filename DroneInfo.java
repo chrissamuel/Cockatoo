@@ -6,7 +6,7 @@
  *
  * To Do
  * ~~~~~
- * Accept TCP connection on port 5559 from Drone.
+ * Make TCP connection to port 5559 from Drone.
  * Parse out config data sent by drone.
  * Update something the rest of the program uses based on that data. :-)
  */
