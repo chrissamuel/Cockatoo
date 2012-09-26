@@ -73,6 +73,10 @@ public class KeyboardInput implements KeyListener {
 //      System.out.println("rate: " + rate);
         break;
 
+      case KeyEvent.VK_C:
+        parrotCommunication.transmitCommand("CTRL=4", null);
+        break;
+
       case KeyEvent.VK_E:
         parrotCommunication.transmitRefCommand(                      // "reset"
           ParrotCommunication.BEHAVIOUR_EMERGENCY
