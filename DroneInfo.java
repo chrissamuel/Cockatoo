@@ -19,12 +19,12 @@ public class DroneInfo {
 
   private static final int DEFAULT_CONFIGINFO_PORT = 5559;
 
-  private ParrotCommunication parrotCommunication = null;
+  private InetAddress parrotAddress = null;
 
   public DroneInfo(
-    ParrotCommunication parrotCommunication) {
+    InetAddress parrotAddress) {
 
-    this.parrotCommunication = parrotCommunication;
+    this.parrotAddress = parrotAddress;
 
 
     new Thread(new Runnable() {
@@ -38,19 +38,9 @@ public class DroneInfo {
   private void configThread() {
 
     try {
-      ServerSocket serverSocket = new ServerSocket(DEFAULT_CONFIGINFO_PORT);
-      System.out.println("New ServerSocket: " + serverSocket);
+      Socket configSocket = new Socket(parrotAddress, DEFAULT_CONFIGINFO_PORT);
+      System.out.println("New configSocket: " + configSocket);
 
-      while(true) {
-        try {
-          Socket socket = serverSocket.accept();
-
-          new SocketHandler(socket);
-        }
-        catch (IOException ioException) {
-          System.err.println("Socket ioException: " + ioException.getMessage());
-        }
-      }
     }
     catch (Exception exception) {
       System.err.println("Server exception: " + exception.getMessage());
@@ -97,74 +87,5 @@ public class DroneInfo {
       }
     }
 
-    private void executeCommand(
-      String buffer) {
-
-      StringTokenizer stringTokenizer = new StringTokenizer(buffer);
-
-      String command = stringTokenizer.nextToken();
-      String parameter = null;
-
-      int repeat = 1;
-
-      if (stringTokenizer.hasMoreTokens())  {
-        parameter = stringTokenizer.nextToken();
-
-        try {
-          repeat = Integer.parseInt(parameter);
-        }
-        catch (NumberFormatException numberFormatException) {}
-      }
-
-      if (command.equalsIgnoreCase("takeoff")) {
-        System.out.println("Command: takeoff");
-
-        parrotCommunication.transmitRefCommand(
-          ParrotCommunication.BEHAVIOUR_TAKEOFF
-        );
-      }
-      else if (command.equalsIgnoreCase("land")) {
-        System.out.println("Command: land");
-
-        parrotCommunication.transmitRefCommand(
-          ParrotCommunication.BEHAVIOUR_LAND
-        );
-      }
-      else if (command.equalsIgnoreCase("forward")) {
-        System.out.println("Command: forward: " + repeat);
-        parrotCommunication.emergencyAbort = false;
-
-        for (int index = 0;  index < repeat;  index ++) {
-          if (parrotCommunication.emergencyAbort == true) break;
-
-          parrotCommunication.transmitProgressiveCommand(
-            ParrotCommunication.MODE_PROGRESSIVE, 0f, -0.30f, 0f, 0f
-          );
-        }
-
-        parrotCommunication.transmitProgressiveCommand(
-          ParrotCommunication.MODE_HOVER, 0f, 0f, 0f, 0f
-        );
-      }
-      else if (command.equalsIgnoreCase("backward")) {
-        System.out.println("Command: backward");
-        parrotCommunication.emergencyAbort = false;
-
-        for (int index = 0;  index < repeat;  index ++) {
-          if (parrotCommunication.emergencyAbort == true) break;
-
-          parrotCommunication.transmitProgressiveCommand(
-            ParrotCommunication.MODE_PROGRESSIVE, 0f, 0.30f, 0f, 0f
-          );
-        }
-
-        parrotCommunication.transmitProgressiveCommand(
-          ParrotCommunication.MODE_HOVER, 0f, 0f, 0f, 0f
-        );
-      }
-      else {
-        System.out.println("Unknown server command: " + command);
-      }
-    }
   }
 }

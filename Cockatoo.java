@@ -45,7 +45,7 @@ public class Cockatoo {
 
     display = new Display(new KeyboardInput(parrotCommunication));
 
-    droneinfo = new DroneInfo(parrotCommunication);
+    droneinfo = new DroneInfo(parrotAddress);
 
     server = new Server(parrotCommunication);
   }
