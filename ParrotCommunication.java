@@ -92,7 +92,6 @@ public class ParrotCommunication {
     transmitProgressiveCommand(MODE_HOVER, 0f, 0f, 0f, 0f);
     transmitRefCommand(BEHAVIOUR_LAND);
     transmitCommand("FTRIM", null);
-    transmitCommand("CTRL=4",null);  // Get the Drone to connect to us and dump out its config data.
   }
 
   public void transmitProgressiveCommand(
